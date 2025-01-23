@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>index.html</title>
+    <style>
+
+        body {
+            background-color: #000000;
+        }
+        .text {
+            color: #FFFFFF;
+            display: block;
+            text-align: center;
+        }
+        .phrase {
+            color: white;
+            background-color: blue;
+            font-family: Arial;
+            font-weight: 600;
+            font-size: 20px;
+        }
+        .code {
+            background-color: red;
+            color: black;
+            font-family: monospace;
+            font-weight: 400;
+            font-size: 16px;
+        }
+        #countdown {
+            display: block;
+            font-size: 20px;
+            font-family: monospace;
+            border-style: solid;
+            border-color: #FFFFFF;
+            border-width: 2px;
+            padding: 20px;
+        }
+        #phrase {
+            padding: 10px;
+        }
+        .wrapper {
+            width: 90%;
+            margin: auto;
+            margin-top: 30px;
+            align-items: center;
+            text-align: center;
+            font-size: 12px;
+        }
+        .gray {
+            color: rgb(176, 176, 176);
+        }
+        @media only screen and (min-width: 1100px) {
+            .wrapper {
+                width: 45%;
+                margin: auto;
+                margin-top: 30px;
+                align-items: center;
+                margin: 0;
+                position: absolute;
+                top: 30%;
+                left: 50%;
+                -ms-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="text" id="countdown"></div>
+        <div class="text" id="phrase"></div>
+    </div>
+    <script>
+        const phrases = [
+            '"Something is looking at you."',
+            '"You are dead, but the clock doesn\'t know it yet."',
+            '"A fish juggled my phone."',
+            '"My shoes are in the fridge."',
+            '"A toaster is secretly a magician."',
+            '"Time is hiding in the toaster."',
+            '"The hourglass keeps talking to me."',
+            '"My watch keeps eating seconds."',
+            '"The hour was late, but it didn\'t care."',
+            '"The page is missing two calendars."',
+            '"The pillow is lying."',
+            '"Nobody will tick five times."',
+            '"Every air is knittable."',
+            '"The cactus will predict the pavement."',
+			'"He is behind you."',
+			'"The teacher is watching you."',
+			'"Bananas argue louder in the winter."',
+			'"The mailbox is fluent in octopus."',
+			'"Your mind is a piano."',
+			'"Shadows scream when they\'re tickled."',
+			'"The clock hands twitch like insect legs."',
+			'"My keys rearrange themselves into a book."',
+			'"The carpet grows roots that creep up the walls."',
+			'"The piano keys rearrange into teeth."',
+			'"The rain burns like silver."',
+			'"The sink overflows with petals"',
+			'"The floorboards bleed."',
+			'"Your name vanishes."'
+        ];
+        const codes = [
+			"MOV AX, [UNKNOWN_MEMORY]",
+			"JMP 0xFFFFF % VOID",
+			"CALL ABYSS_ROUTINE",
+			"INT 0x13h SUMMONS WHISPERS",
+			"JMP NO_RETURN_LABEL",
+			"CALL _SOUL_SWAP",
+			"HLT CORE // Processor is multilated.",
+			"CMP MEMORY[0xFFFF], ENTITY_ID",
+			"XOR MEMORY[MURDER], -1",
+			"JNZ LOOP_TO_NOWHERE",
+			"PUSH DEATH_FLAG",
+			"MOV EAX, _STACK_FRAME",
+			"XOR EAX, [WHISPER_REGISTER]",
+			"MOV ESP, LOST_POINTER",
+			"LOOP BACKWARDS_",
+			"MOV CX, ENTITY_COUNT",
+			"MOV DX, SOUL_OUTPUT",
+			"MOV DX, SOUL_INPUT",
+			"INTERRUPT 0xFE",
+			"DEC LIFE_COUNTER",
+			"MOV EAX, [LURKING_POINTER]",
+            "JMP DEATH_LABEL",
+            "CMP ESP, NIGHTMARE_OFFSET",
+            "SOUL NOT FOUND: Please contact your administrator.",
+            "ERROR: File never existed.",
+            "KERNEL PANIC - not syncing",
+            "NOT SYNCING: Attempted to kill init!",
+            "C:/Limbo cannot be deleted.",
+            "Update failed: It's alive.",
+            "Hard drive hums softly.",
+            "FATAL ERROR: No reality.",
+            "DNS server points to void.",
+            "RuntimeError: Entity still active.",
+            "WARNING: Memory leak in reality.",
+            "Segmentation fault: You moved.",
+            "0xDEADBEEF: Code executed.",
+        ];
+        const targetDate = new Date("2025-02-16T12:00:00"); 
+
+        function setText() {
+
+            const now = new Date();
+            const remainingTime = targetDate - now;
+
+            if (remainingTime <= 0) {
+                document.getElementsByClassName("wrapper")[0].innerHTML = "<span style='color: red; text-align: center'>THE CLOCK STRIKES THIRTEEN, TIME STOPS.</span>";
+                return;
+            }
+
+            textSelection = Math.floor(Math.random() * 2)
+            list = [phrases, codes][textSelection]
+
+            if (textSelection == 0) {
+                document.getElementById('phrase').classList.add("phrase")
+                document.getElementById('phrase').classList.remove("code")
+            } else {
+                document.getElementById('phrase').classList.remove("phrase")
+                document.getElementById('phrase').classList.add("code")
+            }
+
+            document.getElementById('phrase').innerText = list[Math.floor(Math.random() * list.length)];
+        }
+
+        function updateCountdown() {
+
+            const now = new Date();
+            const remainingTime = targetDate - now;
+
+            if (remainingTime <= 0) {
+                document.getElementsByClassName("wrapper")[0].innerHTML = "<span style='color:red;'>THE CLOCK STRIKES THIRTEEN, TIME STOPS.</span>";
+                return;
+            }
+
+            const days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+            const microseconds = Math.floor(remainingTime % 1000);
+
+            document.getElementById('countdown').innerHTML =
+                `${days.toString().padStart(2, '0')} Days, ` +
+                `${hours.toString().padStart(2, '0')}:` +
+                `${minutes.toString().padStart(2, '0')}:` +
+                `${seconds.toString().padStart(2, '0')}` +
+                `<span class="gray">.${microseconds.toString().padEnd(3, '0')}</span>`;
+
+            setTimeout(updateCountdown, 20);
+        }
+
+        updateCountdown();
+        setText();
+
+    </script>
+</body>
+</html>
