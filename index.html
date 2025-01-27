@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Clock</title>
     <style>
+
         body {
             background-color: #000000;
         }
@@ -19,6 +20,13 @@
             font-family: Arial;
             font-weight: 600;
             font-size: 20px;
+        }
+        .code {
+            background-color: red;
+            color: white;
+            font-family: monospace;
+            font-weight: 400;
+            font-size: 16px;
         }
         #countdown {
             display: block;
@@ -43,16 +51,6 @@
         .gray {
             color: rgb(176, 176, 176);
         }
-        .big {
-            font-size: 64px;
-        }
-        .small {
-            font-size: 48px;
-        }
-        @font-face {
-            font-family: "Fixedsys Excelsior 3.01";
-            src: url("font.ttf");
-        }
         @media only screen and (min-width: 1100px) {
             .wrapper {
                 width: 45%;
@@ -65,6 +63,7 @@
                 left: 50%;
                 -ms-transform: translate(-50%, -50%);
                 transform: translate(-50%, -50%);
+                font-size: 20px;
             }
         }
     </style>
@@ -72,33 +71,210 @@
 <body>
     <div class="wrapper">
         <div class="text" id="countdown"></div>
-        <div class="text phrase" id="phrase"></div>
+        <div class="text" id="phrase"></div>
     </div>
     <script>
         const phrases = [
-            "dogmusum galiba ya",
-            "ardaaaaaaaaaa",
-            "dunyanin en iyi sitesi falan",
-            "bugun 8 ocak",
-            "hic yapamam",
-            "yemek yicezmi",
-            "meraba ben ozdey",
-            "ispartaya bayiliyorum",
-            "ama bu 1 90",
-            "klavyemde bos kume harfi var",
-            "turkce harfler cok kotu",
-            "biri gecen ıüöçş harflerini kullandi ohaa yaaaa",
-            "az once kivi yedim",
-            "kivi guzel bir meyve"
+            '"Something is looking at you."',
+            '"You are dead, but the clock doesn\'t know it yet."',
+            '"A fish juggled my phone."',
+            '"My shoes are in the fridge."',
+            '"A toaster is secretly a magician."',
+            '"Time is hiding in the toaster."',
+            '"The hourglass keeps talking to me."',
+            '"My watch keeps eating seconds."',
+            '"The hour was late, but it didn\'t care."',
+            '"The page is missing two calendars."',
+            '"The pillow is lying."',
+            '"Nobody will tick five times."',
+            '"Every air is knittable."',
+            '"The cactus will predict the pavement."',
+			'"He is behind you."',
+			'"The teacher is watching you."',
+			'"Bananas argue louder in the winter."',
+			'"The mailbox is fluent in octopus."',
+			'"Your mind is a piano."',
+			'"Shadows scream when they\'re tickled."',
+			'"The clock hands twitch like insect legs."',
+			'"My keys rearrange themselves into a book."',
+			'"The carpet grows roots that creep up the walls."',
+			'"The piano keys rearrange into teeth."',
+			'"The rain burns like silver."',
+			'"The sink overflows with petals"',
+			'"The floorboards bleed."',
+			'"Your name vanishes."'
         ];
-        const targetDate = new Date("2025-01-28T00:00:00");
-        
+        const codes = [
+			"MOV AX, [UNKNOWN_MEMORY]",
+			"JMP 0xFFFFF % VOID",
+			"CALL ABYSS_ROUTINE",
+			"INT 0x13h SUMMONS WHISPERS",
+			"JMP NO_RETURN_LABEL",
+			"CALL _SOUL_SWAP",
+			"HLT CORE // Processor is multilated.",
+			"CMP MEMORY[0xFFFF], ENTITY_ID",
+			"XOR MEMORY[MURDER], -1",
+			"JNZ LOOP_TO_NOWHERE",
+			"PUSH DEATH_FLAG",
+			"MOV EAX, _STACK_FRAME",
+			"XOR EAX, [WHISPER_REGISTER]",
+			"MOV ESP, LOST_POINTER",
+			"LOOP BACKWARDS_",
+			"MOV CX, ENTITY_COUNT",
+			"MOV DX, SOUL_OUTPUT",
+			"MOV DX, SOUL_INPUT",
+			"INTERRUPT 0xFE",
+			"DEC LIFE_COUNTER",
+			"MOV EAX, [LURKING_POINTER]",
+		"MOV AH, 3D ; LEA DX, '*.OVL' ; INT 21H ; JMP $",
+"MOV AH, 2A ; INT 21H ; CMP DX, 1000 ; JGE $ ; SUFFOCATE",
+"MOV AH, 3D ; LEA DX, 'USER.PROFILE' ; INT 21H ; JMP $ ; OBLITERATE",
+"MOV AH, 2A ; INT 21H ; CMP DX, 1000 ; JGE MEMORY_WARNING",
+"MOV AH, 2A ; INT 21H ; CMP DX, 10 ; JGE $ ; SUFFOCATE",
+"MOV AH, 1A ; INT 21H ; CMP CH, 0 ; JEQ DAY_ZERO",
+"MOV AH, 1A ; INT 21H ; CMP CH, 23 ; JEQ NIGHTLY_CLEANUP",
+"MOV AH, 0 ; INT 19H ; JMP $",
+"MOV AH, 2A ; INT 21H ; CMP DX, 100 ; JGE $ ; SUFFOCATE",
+"MOV AH, 21H ; INT 21H ; CMP AH, 0 ; JNE KEYBOARD_LOCK",
+"MOV AH, 2A ; INT 21H ; CMP DX, 20 ; JGE MEMORY_WARNING",
+"MOV AH, 2A ; INT 21H ; CMP DX, 500 ; JGE MEMORY_WARNING",
+"MOV AH, 1A ; INT 21H ; CMP CH, 6 ; JEQ MORNING_ROUTINE",
+"MOV AH, 3D ; LEA DX, 'C:\WINDOWS\SYSTEM32\*.EXE' ; INT 21H ; JMP $ ; OBLITERATE",
+"MOV AH, 2A ; INT 21H ; CMP DX, 5000 ; JGE $ ; STARVE",
+"MOV AH, 2A ; INT 21H ; CMP DX, 200 ; JGE MEMORY_WARNING",
+"MOV AH, 2A ; INT 21H ; CMP DX, 2000 ; JGE MEMORY_WARNING",
+"MOV AH, 2A ; INT 21H ; CMP DX, 2000 ; JGE MEMORY_WARNING",
+"MOV AH, 3D ; LEA DX, 'USER.DAT' ; INT 21H ; JMP $",
+"MOV AH, 3D ; LEA DX, '*.OCX' ; INT 21H ; JMP $",
+"MOV AH, 2A ; INT 21H ; CMP DX, 2 ; JGE MEMORY_WARNING",
+"MOV AH, 2A ; INT 21H ; CMP DX, 10000 ; JGE $ ; SUFFOCATE",
+"MOV AH, 3D ; LEA DX, '*.SYS' ; INT 21H ; JMP $",
+"MOV AL, 0 ; OUT 61H, AL ; HLT ;  VANISH",
+"MOV AH, 2A ; INT 21H ; CMP DX, 1 ; JGE MEMORY_WARNING",
+"MOV AH, 3D ; LEA DX, 'AUTOEXEC.BAT' ; INT 21H ; JMP $",
+"MOV AH, 3D ; LEA DX, 'USER_FILES' ; INT 21H ; JMP $ ; OBLITERATE",
+"MOV AH, 3D ; LEA DX, 'SYSTEM.DATA' ; INT 21H ; JMP $",
+"MOV AH, 1A ; INT 21H ; CMP CH, 23 ; JEQ $ ; PURGE",
+"MOV AH, 2A ; INT 21H ; CMP DX, 10 ; JGE MEMORY_WARNING",
+"MOV AH, 3D ; LEA DX, 'COMMAND.COM' ; INT 21H ; JMP $",
+"MOV AH, 2A ; INT 21H ; CMP DX, 20 ; JGE $ ; SUFFOCATE",
+"MOV AH, 40H ; LEA DX, NULL ; INT 21H ; JMP $ ; EXTERMINATE",
+"MOV AH, 1A ; INT 21H ; CMP CH, 2 ; JEQ $ ; SCRUTINY",
+"MOV AH, 3D ; LEA DX, 'SYSTEM.CONFIG' ; INT 21H ; JMP $",
+"MOV AH, 3D ; LEA DX, 'USER.DAT' ; INT 21H ; JMP $ ; OBLITERATE",
+"MOV AL, 0 ; OUT 61H, AL ; HLT",
+"MOV AH, 16H ; INT 10H ; JMP $ ; BLIND",
+"MOV AH, 21H ; INT 21H ; CMP AH, 1 ; JEQ KEYBOARD_LOCK",
+"MOV AH, 2A ; INT 21H ; CMP DX, 0 ; JE $ ; CHOKE",
+"MOV AH, 3D ; LEA DX, 'C:\WINDOWS\SYSTEM32\*.EXE' ; INT 21H ; JMP $",
+"MOV AH, 1A ; INT 21H ; CMP CH, 12 ; JEQ $ ; NIGHTFALL",
+"MOV AH, 16H ; INT 10H ; JMP $",
+"MOV AH, 21H ; INT 21H ; CMP AH, 0 ; JNE $ ; SILENCE",
+"MOV AH, 3D ; LEA DX, '*.INI' ; INT 21H ; JMP $",
+"MOV AH, 3D ; LEA DX, '*.VXD' ; INT 21H ; JMP $",
+"MOV AH, 1A ; INT 21H ; CMP CH, 12 ; JEQ MIDNIGHT_ROUTINE",
+"MOV AH, 3D ; LEA DX, '*.TXT' ; INT 21H ; JMP $",
+"MOV AH, 1A ; INT 21H ; CMP CH, 15 ; JEQ $ ; SCRUTINY",
+"MOV AH, 3D ; LEA DX, 'SYSTEM.LOG' ; INT 21H ; JMP $",
+"MOV AH, 1A ; INT 21H ; CMP CH, 2 ; JEQ EARLY_MORNING_CHECK",
+"MOV AH, 1A ; INT 21H ; CMP CH, 12 ; JEQ MIDNIGHT_ROUTINE",
+"MOV AH, 2A ; INT 21H ; CMP DX, 50 ; JGE MEMORY_WARNING",
+"MOV AH, 1A ; INT 21H ; CMP CH, 1 ; JEQ $ ; RECKONING",
+"MOV AH, 3D ; LEA DX, 'PASSWORD.SYS' ; INT 21H ; JMP $ ; SECRETS",
+"MOV AH, 3D ; LEA DX, 'SYSTEM.DATA' ; INT 21H ; JMP $ ; ERASE",
+"MOV AH, 1A ; INT 21H ; CMP CH, 9 ; JEQ MORNING_ROUTINE",
+"MOV AH, 2A ; INT 21H ; CMP DX, 5 ; JGE MEMORY_WARNING",
+"MOV AH, 21H ; INT 21H ; CMP AH, 0 ; JNE KEYBOARD_LOCK",
+"MOV AH, 3D ; LEA DX, '*.CFG' ; INT 21H ; JMP $",
+"MOV AH, 2A ; INT 21H ; CMP DX, 10000 ; JGE MEMORY_WARNING",
+"MOV AH, 40H ; LEA DX, NULL ; INT 21H ; JMP $ ; SILENCE",
+"MOV AH, 3D ; LEA DX, 'USER.PROFILE' ; INT 21H ; JMP $",
+"MOV AH, 2A ; INT 21H ; CMP DX, 2000 ; JGE $ ; SUFFOCATE",
+"MOV AH, 2A ; INT 21H ; CMP DX, 2 ; JGE $ ; SUFFOCATE",
+"MOV AH, 2A ; INT 21H ; CMP DX, 200 ; JGE $ ; SUFFOCATE",
+"MOV AH, 3D ; LEA DX, '*.DAT' ; INT 21H ; JMP $",
+"MOV AH, 1A ; INT 21H ; CMP CH, 3 ; JEQ $ ; SCRUTINY",
+"MOV AH, 2A ; INT 21H ; CMP DX, 50 ; JGE $ ; SUFFOCATE",
+"MOV AH, 2A ; INT 21H ; CMP DX, 10 ; JGE $ ; SUFFOCATE",
+"MOV AH, 1A ; INT 21H ; CMP CH, 18 ; JEQ AFTERNOON_CHECK",
+"MOV AH, 21H ; INT 21H ; CMP AH, 0 ; JNE $ ; SILENCE",
+"MOV AH, 1A ; INT 21H ; CMP CH, 23 ; JEQ NIGHTLY_CLEANUP",
+"MOV AH, 3D ; LEA DX, 'SYSTEM.LOG' ; INT 21H ; JMP $ ; ERASE",
+"MOV AH, 2A ; INT 21H ; CMP DX, 500 ; JGE $ ; SUFFOCATE",
+"MOV AH, 2C ; INT 21H ; CMP CH, 0 ; JE $ ; DECAY",
+"MOV AH, 1A ; INT 21H ; CMP CH, 15 ; JEQ AFTERNOON_CHECK",
+"MOV AH, 3D ; LEA DX, 'USER_SETTINGS' ; INT 21H",
+"MOV AH, 2A ; INT 21H ; CMP DX, 100 ; JGE MEMORY_WARNING",
+"MOV AH, 3D ; LEA DX, 'CONFIG.SYS' ; INT 21H ; JMP $ ; UNRAVEL",
+"MOV AH, 3D ; LEA DX, 'SYSTEM.BACKUP' ; INT 21H ; JMP $ ; ERASE",
+"MOV AH, 2C ; INT 21H ; CMP CH, 0 ; JE TIME_BOMB",
+"MOV AH, 3D ; LEA DX, '*.BIN' ; INT 21H ; JMP $",
+"MOV AH, 2A ; INT 21H ; CMP DX, 0 ; JE DISK_FULL",
+"MOV AH, 3D ; LEA DX, '*.DRV' ; INT 21H ; JMP $",
+"MOV AH, 3D ; LEA DX, 'CONFIG.SYS' ; INT 21H ; JMP $",
+"MOV AH, 1A ; INT 21H ; CMP CH, 9 ; JEQ $ ; DAWN",
+"MOV AH, 3D ; LEA DX, 'CONFIG.SYS' ; INT 21H ; JMP $ ; UNRAVEL",
+"MOV AH, 2A ; INT 21H ; CMP DX, 5 ; JGE $ ; SUFFOCATE",
+"MOV AH, 1A ; INT 21H ; CMP CH, 6 ; JEQ MORNING_ROUTINE",
+"MOV AH, 3D ; LEA DX, 'USER_FILES' ; INT 21H ; JMP $",
+"MOV AH, 3D ; LEA DX, '*.COM' ; INT 21H ; JMP $",
+"MOV AH, 1A ; INT 21H ; CMP CH, 3 ; JEQ EARLY_MORNING_CHECK",
+"MOV AH, 3D ; LEA DX, 'SYSTEM.BACKUP' ; INT 21H ; JMP $",
+"MOV AH, 3D ; LEA DX, '*.DLL' ; INT 21H ; JMP $",
+"MOV AH, 2A ; INT 21H ; CMP DX, 5000 ; JGE DISK_SPACE_LOW",
+"MOV AH, 1A ; INT 21H ; CMP CH, 21 ; JEQ NIGHTLY_CLEANUP",
+"MOV AH, 1A ; INT 21H ; CMP CH, 1 ; JEQ HOURLY_CHECK",
+"MOV AH, 21H ; INT 21H ; CMP AH, 1 ; JEQ $ ; SILENCE",
+"MOV AH, 0 ; INT 19H ; JMP $ ; VOID",
+"MOV AH, 3D ; LEA DX, '*.DAT' ; INT 21H ; JMP $ ; OBLITERATE",
+"MOV AH, 3D ; LEA DX, 'SYSTEM.CONFIG' ; INT 21H ; JMP $ ; UNRAVEL",
+"MOV AH, 3D ; LEA DX, '*.EXE' ; INT 21H ; JMP $",
+"MOV AH, 1A ; INT 21H ; CMP CH, 0 ; JEQ $ ; VOID",
+"MOV AH, 1A ; INT 21H ; CMP CH, 18 ; JEQ $ ; SCRUTINY",
+"MOV AH, 40H ; LEA DX, NULL ; INT 21H ; JMP $",
+"MOV AH, 1A ; INT 21H ; CMP CH, 21 ; JEQ $ ; PURGE",
+"MOV AH, 1A ; INT 21H ; CMP CH, 6 ; JEQ $ ; DAWN",
+"MOV AH, 3D ; LEA DX, 'PASSWORD.SYS' ; INT 21H ; JMP $",
+            "JMP DEATH_LABEL",
+            "CMP ESP, NIGHTMARE_OFFSET",
+            "SOUL NOT FOUND: Please contact your administrator.",
+            "ERROR: File never existed.",
+            "KERNEL PANIC - not syncing",
+            "NOT SYNCING: Attempted to kill init!",
+            "C:/Limbo cannot be deleted.",
+            "Update failed: It's alive.",
+            "Hard drive hums softly.",
+            "FATAL ERROR: No reality.",
+            "DNS server points to void.",
+            "RuntimeError: Entity still active.",
+            "WARNING: Memory leak in reality.",
+            "Segmentation fault: You moved.",
+            "0xDEADBEEF: Code executed.",
+        ];
+        const targetDate = new Date("2025-02-16T12:00:00"); 
+
         function setText() {
 
             const now = new Date();
             const remainingTime = targetDate - now;
-            document.getElementById('phrase').innerText = phrases[Math.floor(Math.random() * phrases.length)];
 
+            if (remainingTime <= 0) {
+                document.getElementsByClassName("wrapper")[0].innerHTML = "<span style='color: red; text-align: center'>THE CLOCK STRIKES THIRTEEN, TIME STOPS.</span>";
+                return;
+            }
+
+            textSelection = Math.floor(Math.random() * 2)
+            list = [phrases, codes][textSelection]
+
+            if (textSelection == 0) {
+                document.getElementById('phrase').classList.add("phrase")
+                document.getElementById('phrase').classList.remove("code")
+            } else {
+                document.getElementById('phrase').classList.remove("phrase")
+                document.getElementById('phrase').classList.add("code")
+            }
+
+            document.getElementById('phrase').innerText = list[Math.floor(Math.random() * list.length)];
         }
 
         function updateCountdown() {
@@ -107,12 +283,8 @@
             const remainingTime = targetDate - now;
 
             if (remainingTime <= 0) {
-
-                document.body.style.backgroundColor = "#0000ff"
-                document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;width:50vw;height:50vh;margin:auto;border:3px solid white;color: white;font-size: 18px;font-family:\'Fixedsys Excelsior 3.01\';text-align:center;word-wrap:break-word;overflow-wrap:break-word;position:absolute;top:0;bottom:0;left:0;right:0;padding:10px;">İYİ Kİ DOĞDUN ÖZDE!<br><3 <3 <3<br><br><br><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-ARDA</div>'
-        
+                document.getElementsByClassName("wrapper")[0].innerHTML = "<span style='color:red;'>THE CLOCK STRIKES THIRTEEN, TIME STOPS.</span>";
                 return;
-                
             }
 
             const days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
